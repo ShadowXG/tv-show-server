@@ -51,6 +51,28 @@ app.get('/', (req, res) => {
     res.send('Server is live, ready for requests')
 })
 
+// The seed route
+app.get('/tv/seed', (req, res) => {
+    // array of starter(tv shows)
+    const startTvShows = [
+        {name: 'Psych', genre: 'crime, comedy', inProduction: false},
+        {name: 'Suits', genre: 'drama', inProduction: false},
+        {name: 'Doctor Who', theme: 'adventure', inProduction: true},
+        {name: 'Brooklyn Nine-Nine', theme: 'crime, comedy', inProduction: false},
+    ]
+    // delet all the tv shows in the db
+    TV.deleteMany({})
+        .then(() => {
+            // create the start tv shows
+            TV.create(startTvShows)
+                // tell our db what to do with success and failures
+                .then(data => {
+                    res.json(data)
+                })
+                .catch(err => console.log('The following error occurred: \n', err))
+        })
+})
+
 ///////////////////////////
 //// Server Listener   ////
 ///////////////////////////

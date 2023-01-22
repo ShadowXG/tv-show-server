@@ -13,28 +13,6 @@ const router = express.Router()
 //// Routes       ////
 //////////////////////
 
-// The seed route
-router.get('/seed', (req, res) => {
-    // array of starter(tv shows)
-    const startTvShows = [
-        {name: 'Psych', genre: 'crime, comedy', inProduction: false},
-        {name: 'Suits', genre: 'drama', inProduction: false},
-        {name: 'Doctor Who', genre: 'adventure', inProduction: true},
-        {name: 'Brooklyn Nine-Nine', genre: 'crime, comedy', inProduction: false},
-    ]
-    // delet all the tv shows in the db
-    TV.deleteMany({})
-        .then(() => {
-            // create the start tv shows
-            TV.create(startTvShows)
-                // tell our db what to do with success and failures
-                .then(data => {
-                    res.json(data)
-                })
-                .catch(err => console.log('The following error occurred: \n', err))
-        })
-})
-
 // INDEX route
 // Read -> finds and displays all tv shows
 router.get('/', (req, res) => {

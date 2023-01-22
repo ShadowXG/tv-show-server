@@ -21,7 +21,7 @@ mongoose.connect(DATABASE_URL, CONFIG)
 mongoose.connection
     .on('open', () => console.log('Connected to Mongoose'))
     .on('close', () => console.log('Disconnected from Mongoose'))
-    .on('open', (error) => console.log(error))
+    .on('error', (error) => console.log(error))
 
 //////////////////////////////////
 //// Export our Connection    ////

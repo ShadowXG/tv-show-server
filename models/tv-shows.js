@@ -1,7 +1,7 @@
 /////////////////////////////////////////////
 //// My schema and model for tv shows    ////
 /////////////////////////////////////////////
-const mongoose = require('mongoose')
+const mongoose = require('../utils/connection')
 
 const { Schema, model } = mongoose
 

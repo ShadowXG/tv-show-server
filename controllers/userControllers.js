@@ -70,6 +70,14 @@ router.post('/login', async (req, res) => {
         })
 })
 
+// DELETE -> /users/logout
+// this route destroys a session in our db(and in the browser)
+router.delete('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.sendStatus(204)
+    })
+})
+
 ///////////////////////////////
 //// Export Router         ////
 ///////////////////////////////

@@ -73,6 +73,17 @@ app.get('/tv/seed', (req, res) => {
         })
 })
 
+// INDEX route
+// Read -> finds and displays all tv shows
+app.get('/tv', (req, res) => {
+    // find all the tv shows
+    TV.find({})
+        // send json if successful
+        .then(tvs => { res.json({ tvs: tvs })})
+        // catch errors if they occur
+        .catch(err => console.log('The following error occurred: \n', err))
+})
+
 ///////////////////////////
 //// Server Listener   ////
 ///////////////////////////

@@ -113,6 +113,19 @@ app.put('/tv/:id', (req, res) => {
         .catch(err => console.log('The following error occurred: \n', err))
 })
 
+// DELETE route
+// Delete -> destroys a single tv show
+app.delete('/tv/:id', (req, res) => {
+    // get the id
+    const id = req.params.id
+    // find and delete the tv show
+    TV.findByIdAndRemove(id)
+        .then(() => {
+            res.sendStatus(204)
+        })
+        .catch(err => console.log('The following error occurred: \n', err))
+})
+
 ///////////////////////////
 //// Server Listener   ////
 ///////////////////////////

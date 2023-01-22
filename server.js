@@ -6,6 +6,7 @@ const express = require("express") // import express
 const morgan = require("morgan") // import morgan
 const path = require("path") // import path module
 const TvRouter = require('./controllers/tv-showsControllers')
+const middleware = require('./utils/middleware')
 
 ///////////////////////////////////////
 //// Create our Express App Object ////
@@ -15,10 +16,7 @@ const app = express()
 //////////////////////
 //// Middleware   ////
 //////////////////////
-app.use(morgan("tiny"))
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static("public"))
-app.use(express.json())
+middleware(app)
 
 ////////////////////
 //// Routes     ////

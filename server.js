@@ -57,10 +57,10 @@ app.get('/tv/seed', (req, res) => {
     const startTvShows = [
         {name: 'Psych', genre: 'crime, comedy', inProduction: false},
         {name: 'Suits', genre: 'drama', inProduction: false},
-        {name: 'Doctor Who', theme: 'adventure', inProduction: true},
-        {name: 'Brooklyn Nine-Nine', theme: 'crime, comedy', inProduction: false},
+        {name: 'Doctor Who', genre: 'adventure', inProduction: true},
+        {name: 'Brooklyn Nine-Nine', genre: 'crime, comedy', inProduction: false},
     ]
-    // delet all the tv shows in the db
+    // delete all the tv shows in the db
     TV.deleteMany({})
         .then(() => {
             // create the start tv shows

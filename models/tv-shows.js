@@ -1,8 +1,8 @@
 /////////////////////////////////////////////
 //// My schema and model for tv shows    ////
 /////////////////////////////////////////////
-const { trusted } = require('mongoose')
 const mongoose = require('../utils/connection')
+const commentSchema = require('./comment')
 
 const { Schema, model } = mongoose
 
@@ -20,7 +20,8 @@ const tvShowSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    comments: [commentSchema]
 }, { timestamps: true })
 
 const TV = model('TV', tvShowSchema)

@@ -6,6 +6,7 @@ const express = require("express") // import express
 const morgan = require("morgan") // import morgan
 const path = require("path") // import path module
 const TvRouter = require('./controllers/tv-showsControllers')
+const UserRouter = require('./controllers/userControllers')
 const middleware = require('./utils/middleware')
 
 ///////////////////////////////////////
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 
 // register the routes
 app.use('/tv', TvRouter)
+app.use('/users', UserRouter)
 
 ///////////////////////////
 //// Server Listener   ////

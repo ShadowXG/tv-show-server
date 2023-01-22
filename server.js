@@ -1,11 +1,12 @@
 ///////////////////////////////
 //// Import Dependencies   ////
 ///////////////////////////////
-require("dotenv").config() // Load ENV Variables
 const express = require("express") // import express
 const morgan = require("morgan") // import morgan
 const path = require("path") // import path module
+require("dotenv").config() // Load ENV Variables
 const TvRouter = require('./controllers/tv-showsControllers')
+const CommentRouter = require('./controllers/commentControllers')
 const UserRouter = require('./controllers/userControllers')
 const middleware = require('./utils/middleware')
 
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 
 // register the routes
 app.use('/tv', TvRouter)
+app.use('/comments', CommentRouter)
 app.use('/users', UserRouter)
 
 ///////////////////////////

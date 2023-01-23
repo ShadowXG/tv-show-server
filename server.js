@@ -31,9 +31,21 @@ app.get('/', (req, res) => {
 })
 
 // register the routes
-app.use('/tv', TvRouter)
+app.use('/tvs', TvRouter)
 app.use('/comments', CommentRouter)
 app.use('/users', UserRouter)
+
+// Error page
+app.get('/error', (req, res) => {
+    const error = req.query.error || 'This page does not exist'
+
+    res.render('error.liquid', { error })
+})
+
+// catch all to redirect to the error page
+app.all('*', (req, res) => {
+    res.redirect('/error')
+})
 
 ///////////////////////////
 //// Server Listener   ////

@@ -31,12 +31,14 @@ router.post('/signup', async (req, res) => {
     User.create(newUser)
         // if successful
         .then(user => {
-            res.status(201).json({ username: user.username })
+            // res.status(201).json({ username: user.username })
+            res.redirect('/users/login')
         })
         // if there's an error
         .catch(err => {
             console.log(err)
-            res.json(err)
+            // res.json(err)
+            res.redirect(`/error?error=username%20taken`)
         })
 })
 
@@ -67,17 +69,21 @@ router.post('/login', async (req, res) => {
                     req.session.loggedIn = true
                     req.session.userId = user.id
 
-                    res.status(201).json({ username: user.username })
+                    // res.status(201).json({ username: user.username })
+                    res.redirect('/')
                 } else {
-                    res.json({ error: 'username or password is incorrect' })
+                    // res.json({ error: 'username or password is incorrect' })
+                    res.redirect(`/error?error=username%20or%20password%20is%20incorrect`)
                 }
             } else {
-                res.json({ error: 'user does not exist' })
+                // res.json({ error: 'user does not exist' })
+                res.redirect(`/error?error=user%20does%20not%20exist`)
             }
         })
         .catch(err => {
             console.log(err)
-            res.json(err)
+            // res.json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 

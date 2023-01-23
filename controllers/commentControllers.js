@@ -54,18 +54,22 @@ router.delete('/delete/:tvId/:commId', (req, res) => {
                 if (theComment.author == req.session.userId) {
                     theComment.remove()
                     tv.save()
-                    res.sendStatus(204)
+                    // res.sendStatus(204)
+                    res.redirect(`/shows/${show.id}`)
                 } else {
-                    res.sendStatus(401) // unauthorized
+                    // res.sendStatus(401) // unauthorized
+                    res.redirect(`/error?error=You%20Are%20not%20allowed%20to%20delete%20this%20comment`)
                 }
             } else {
-                res.sendStatus(401) // unauthorized
+                // res.sendStatus(401) // unauthorized
+                res.redirect(`/error?error=You%20Are%20not%20allowed%20to%20delete%20this%20comment`)
             }
         })
         .catch(err => {
             // catch any errors
             console.log(err)
-            res.status(400)
+            // res.status(400)
+            res.redirect(`/error?error=${err}`)
         })
 })
 

@@ -15,13 +15,13 @@ const db = mongoose.connection
 db.on('open', () => {
     // array of starter(tv shows)
     const startTvShows = [
-        { name: 'Psych', genre: 'crime', inProduction: false },
-        { name: 'Suits', genre: 'drama', inProduction: false },
-        { name: 'Doctor Who', genre: 'adventure', inProduction: true },
-        { name: 'Brooklyn Nine-Nine', genre: 'comedy', inProduction: false },
+        { name: 'Psych', genre: 'Comedy, Crime, and Mystery', inProduction: false },
+        { name: 'Suits', genre: 'Comedy and Drama', inProduction: false },
+        { name: 'Doctor Who', genre: 'Adventure, Drama, Family, Sci-Fi', inProduction: true },
+        { name: 'Brooklyn Nine-Nine', genre: 'Comedy and Crime', inProduction: false },
     ]
     // delete all the tv shows in the db
-    Show.deleteMany({})
+    Show.deleteMany({ owner: null })
         .then(() => {
             // create the start tv shows
             Show.create(startTvShows)

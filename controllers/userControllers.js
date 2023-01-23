@@ -40,6 +40,12 @@ router.post('/signup', async (req, res) => {
         })
 })
 
+// Get -> User login
+// Renders a page with a login form
+router.get('/login', (req, res) => {
+    res.render('users/login')
+})
+
 // POST -> /users/login
 // This creates a new session in our db(and in the browser)
 router.post('/login', async (req, res) => {
@@ -75,11 +81,17 @@ router.post('/login', async (req, res) => {
         })
 })
 
+// GET -> /users/logout
+// This route renders a page that allows the user to log out
+router.get('/logout', (req, res) => {
+    res.render('users/logout')
+})
+
 // DELETE -> /users/logout
 // this route destroys a session in our db(and in the browser)
 router.delete('/logout', (req, res) => {
     req.session.destroy(() => {
-        res.sendStatus(204)
+        res.redirect('/')
     })
 })
 

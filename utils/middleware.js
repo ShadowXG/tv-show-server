@@ -6,11 +6,13 @@ const morgan = require("morgan") // import morgan
 const session = require("express-session") // import path module
 const MongoStore = require('connect-mongo')
 require("dotenv").config() // Load ENV Variables
+const methodOverride = require('method-override')
 
 //////////////////////////////////
 //// Middleware function      ////
 //////////////////////////////////
 const middleware = (app) => {
+    app.use(methodOverride('_method'))
     app.use(morgan("tiny"))
     app.use(express.urlencoded({ extended: true }))
     app.use(express.static("public"))

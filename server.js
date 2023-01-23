@@ -13,7 +13,10 @@ const middleware = require('./utils/middleware')
 ///////////////////////////////////////
 //// Create our Express App Object ////
 ///////////////////////////////////////
-const app = express()
+// the old way it was fine for building an API that sends and recieves JSON
+// const app = express()
+// now I'm going to a full-stack app
+const app = require('liquid-express-views')(express())
 
 //////////////////////
 //// Middleware   ////
@@ -24,7 +27,7 @@ middleware(app)
 //// Routes     ////
 ////////////////////
 app.get('/', (req, res) => {
-    res.send('Server is live, ready for requests')
+    res.render('home.liquid')
 })
 
 // register the routes

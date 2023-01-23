@@ -34,9 +34,15 @@ router.get('/', (req, res) => {
         })
 })
 
+router.get('/new', (req, res) => {
+    res.render('tv-shows/new', { ...req.session })
+})
+
 // CREATE route
 // Create -> receives a request, and creates a new document
 router.post('/', (req, res) => {
+    req.body.owner = req.session.userId
+    req.body.inProduction = req.body.inProduction === 'on' ? true : false
     const newTvShow = req.body
     Show.create(newTvShow)
         .then(show => {
@@ -61,6 +67,22 @@ router.get('/mine', (req, res) => {
             // if found display the tv shows
             // res.status(200).json({ shows: shows })
             res.render('tv-shows/index', {shows, ...req.session})
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(400).json(err)
+        })
+})
+
+// GET route for user specific shows
+// this will only show the logged in users tv shows
+router.get('/json', (req, res) => {
+    // find show by ownership
+    Show.find({ owner: req.session.userId })
+        .populate('owner', 'username')
+        .populate('comments.author', '-password')
+        .then(shows => {
+            res.render('tv-shows/index', { shows, ...req.session})
         })
         .catch(err => {
             console.log(err)
@@ -129,7 +151,7 @@ router.get('/:id', (req, res) => {
             // send the tv show as json upon success
             // res.json({ show: show })
             // now we'll render it
-            res.render('fruits/show.liquid', { show, ...req.session})
+            res.render('tv-shows/show.liquid', { show, ...req.session})
         })
         .catch(err => {
             console.log(err)

@@ -1,0 +1,26 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-sm">
+        <form action="/shows" method="POST">
+            <fieldset>
+                <legend>Create New Show</legend>
+                <label class="form-label">Name:</label>
+                <input 
+                    type="text" class="form-control" 
+                    name="name" placeholder="What is the name of the show?"
+                >
+                <label class="form-label">Genre:</label>
+                <input 
+                    type="text" class="form-control" 
+                    name="text" placeholder="What genres does the show have?"
+                >
+                <label class="form-label">In Production?:</label>
+                <input 
+                    type="checkbox" class="form-check-control" 
+                    name="InProduction"
+                >
+            </fieldset>
+            <input type="submit" class="btn btn-success" value="Create New Show">
+        </form>
+    </div>
+{% endblock %}

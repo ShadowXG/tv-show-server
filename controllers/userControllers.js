@@ -13,6 +13,11 @@ const router = express.Router()
 ///////////////////////////////
 //// Routes                ////
 ///////////////////////////////
+// GET -> User signup
+// Renders a page with the sign up form
+router.get('/signup', (req, res) => {
+    res.render('users/signup')
+})
 // Post -> /users/signup
 // This route creates new users in our db
 router.post('/signup', async (req, res) => {

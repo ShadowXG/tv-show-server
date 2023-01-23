@@ -16,15 +16,16 @@ const router = express.Router()
 // INDEX route
 // Read -> finds and displays all tv shows
 router.get('/', (req, res) => {
+    const { username, loggedIn, userId } = req.session
     // find all the tv shows
     TV.find({})
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         // send json if successful
-        .then(tvs => { 
+        .then(shows => { 
             // res.json({ tvs: tvs })
             // now that liquid is installed we'll have to render instead
-            res.render('fruits/index', { fruits })
+            res.render('tv-shows/index', { shows, username, loggedIn, userId })
         })
         // catch errors if they occur
         .catch(err => {
@@ -38,9 +39,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const newTvShow = req.body
     TV.create(newTvShow)
-        .then(tv => {
+        .then(show => {
             // sending a 201 status, along with the new tv show
-            res.status(201).json({ tv: tv.toObject() })
+            res.status(201).json({ show: show.toObject() })
         })
         // send an err if one occurs
         .catch(err => {
@@ -56,9 +57,9 @@ router.get('/mine', (req, res) => {
     TV.find({ owner: req.session.userId })
         .populate('owner', 'username')
         .populate('comments.author', '-password')
-        .then(tvs => {
+        .then(shows => {
             // if found display the tv shows
-            res.status(200).json({ tvs: tvs })
+            res.status(200).json({ shows: shows })
         })
         .catch(err => {
             console.log(err)
@@ -73,13 +74,13 @@ router.put('/:id', (req, res) => {
     const id = req.params.id
     // find the tv show by id and update it
     TV.findById(id)
-        .then(tv => {
+        .then(show => {
             // check if the owner matches the person logged in
-            if (tv.owner == req.session.userId) {
+            if (show.owner == req.session.userId) {
                 // if true send a success message
                 res.sendStatus(204)
                 // update and save the fruit
-                return tv.updateOne(req.body)
+                return show.updateOne(req.body)
             } else {
                 // otherwise send an unathorized status
                 res.sendStatus(401)
@@ -98,13 +99,13 @@ router.delete('/:id', (req, res) => {
     const id = req.params.id
     // find and delete the tv show
     TV.findById(id)
-        .then(tv => {
+        .then(show => {
             // check if the owner matches the person logged in
-            if (tv.owner == req.session.userId) {
+            if (show.owner == req.session.userId) {
                 // if true send a success message
                 res.sendStatus(204)
                 // update and save the fruit
-                return tv.deleteOne()
+                return show.deleteOne()
             } else {
                 // otherwise send an unathorized status
                 res.sendStatus(401)
@@ -123,9 +124,9 @@ router.get('/:id', (req, res) => {
     const id = req.params.id
     TV.findById(id)
         .populate('comments.author', 'username')
-        .then(tv => {
+        .then(show => {
             // send the tv show as json upon success
-            res.json({ tv: tv })
+            res.json({ show: show })
         })
         .catch(err => {
             console.log(err)

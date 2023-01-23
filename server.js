@@ -15,7 +15,7 @@ const middleware = require('./utils/middleware')
 ///////////////////////////////////////
 // the old way it was fine for building an API that sends and recieves JSON
 // const app = express()
-// now I'm going to a full-stack app
+// now it a full stack app
 const app = require('liquid-express-views')(express())
 
 //////////////////////
@@ -27,11 +27,11 @@ middleware(app)
 //// Routes     ////
 ////////////////////
 app.get('/', (req, res) => {
-    res.render('home.liquid')
+    res.render('home.liquid', {...req.session})
 })
 
 // register the routes
-app.use('/tvs', TvRouter)
+app.use('/shows', TvRouter)
 app.use('/comments', CommentRouter)
 app.use('/users', UserRouter)
 
@@ -39,7 +39,8 @@ app.use('/users', UserRouter)
 app.get('/error', (req, res) => {
     const error = req.query.error || 'This page does not exist'
 
-    res.render('error.liquid', { error })
+    // const { username, loggedIn, userId } = req.session
+    res.render('error.liquid', { error, ...req.session })
 })
 
 // catch all to redirect to the error page

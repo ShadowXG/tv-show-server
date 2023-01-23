@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
         .then(shows => { 
             // res.json({ tvs: tvs })
             // now that liquid is installed we'll have to render instead
-            res.render('tv-shows/index', { shows, username, loggedIn, userId })
+            res.render('shows/index', { shows, username, loggedIn, userId })
         })
         // catch errors if they occur
         .catch(err => {
@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/new', (req, res) => {
-    res.render('tv-shows/new', { ...req.session })
+    res.render('shows/new', { ...req.session })
 })
 
 // CREATE route
@@ -70,7 +70,7 @@ router.get('/mine', (req, res) => {
         .then(shows => {
             // if found display the tv shows
             // res.status(200).json({ shows: shows })
-            res.render('tv-shows/index', {shows, ...req.session})
+            res.render('shows/index', {shows, ...req.session})
         })
         .catch(err => {
             console.log(err)
@@ -87,11 +87,24 @@ router.get('/json', (req, res) => {
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         .then(shows => {
-            res.render('tv-shows/index', { shows, ...req.session})
+            res.render('shows/index', { shows, ...req.session})
         })
         .catch(err => {
             console.log(err)
             res.status(400).json(err)
+        })
+})
+
+// GET request -> edit route
+// shows the form for updating a show
+router.get('/edit/:id', (req, res) => {
+    const showId = req.params.id
+    Show.findById(showId)
+        .then(show => {
+            res.render('shows/edit', { show, ...req.session })
+        })
+        .catch(err => {
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -100,13 +113,14 @@ router.get('/json', (req, res) => {
 router.put('/:id', (req, res) => {
     // save the id for easy reference later
     const id = req.params.id
+    req.body.inProduction = req.body.inProduction === 'on' ? true : false
     // find the tv show by id and update it
     Show.findById(id)
         .then(show => {
             // check if the owner matches the person logged in
             if (show.owner == req.session.userId) {
                 // if true send a success message
-                res.sendStatus(204)
+                // res.sendStatus(204)
                 // update and save the fruit
                 return show.updateOne(req.body)
             } else {
@@ -114,6 +128,9 @@ router.put('/:id', (req, res) => {
                 // res.sendStatus(401)
                 res.redirect(`/error?error=You%20are%20not%20allowed%20to%20edit%20this%20show`)
             }
+        })
+        .then(() => {
+            res.redirect(`/shows/mine`)
         })
         .catch(err => {
             console.log(err)
@@ -163,7 +180,7 @@ router.get('/:id', (req, res) => {
             // send the tv show as json upon success
             // res.json({ show: show })
             // now we'll render it
-            res.render('tv-shows/show.liquid', { show, ...req.session})
+            res.render('shows/show.liquid', { show, ...req.session})
         })
         .catch(err => {
             console.log(err)

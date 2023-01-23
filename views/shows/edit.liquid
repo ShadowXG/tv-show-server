@@ -1,0 +1,32 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-sm">
+        <form action="/shows/{{show.id}}?_method=PUT" method="POST">
+            <fieldset>
+                <legend>Edit {{ show.name }}</legend>
+                <label class="form-label">Name:</label>
+                <input 
+                    type="text" class="form-control" 
+                    name="name" placeholder="What is the name of the show?"
+                    required value="{{ fruit.name }}"
+                >
+                <label class="form-label">Genre:</label>
+                <input 
+                    type="text" class="form-control" 
+                    name="genre" placeholder="What are the genres?"
+                    required value="{{ fruit.color }}"
+                >
+                <label class="form-label">In Production?:</label>
+                <input 
+                    type="checkbox" class="form-check-control" 
+                    name="inProduction"
+                    {% if show.inProduction %}
+                        checked
+                    {% endif %}
+                >
+            </fieldset>
+            <input type="submit" class="btn btn-success" value="Edit {{ show.name }}">
+            <a href="/shows/{{ show.id }}" class="btn btn-warning">Back</a>
+        </form>
+    </div>
+{% endblock %}

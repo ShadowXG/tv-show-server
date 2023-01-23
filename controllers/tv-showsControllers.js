@@ -127,7 +127,9 @@ router.get('/:id', (req, res) => {
         .populate('comments.author', 'username')
         .then(show => {
             // send the tv show as json upon success
-            res.json({ show: show })
+            // res.json({ show: show })
+            // now we'll render it
+            res.render('fruits/show.liquid', { show, ...req.session})
         })
         .catch(err => {
             console.log(err)

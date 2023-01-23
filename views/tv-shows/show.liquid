@@ -1,0 +1,15 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-md">
+        <article>
+            <h2>{{show.name}}</h2>
+            <h4>
+                {% if show.inProduction %}
+                    This show is still being produced
+                {% else %}
+                    This show is done or got canceled. Time to find another one!
+                {% endif %}
+            </h4>
+        </article>
+    </div>
+{% endblock %}

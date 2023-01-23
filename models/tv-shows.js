@@ -9,13 +9,13 @@ const { Schema, model } = mongoose
 // TV Show schema
 const tvShowSchema = new Schema({
     name: {
-        String,
+        type: String
     },
     genre: {
-        String,
+        type: String
     },
     inProduction: {
-        Boolean
+        type: Boolean
     },
     owner: {
         type: Schema.Types.ObjectId,
@@ -24,9 +24,9 @@ const tvShowSchema = new Schema({
     comments: [commentSchema]
 }, { timestamps: true })
 
-const TV = model('TV', tvShowSchema)
+const Show = model('Show', tvShowSchema)
 
 //////////////////////////
 //// Export our Model ////
 //////////////////////////
-module.exports = TV
+module.exports = Show

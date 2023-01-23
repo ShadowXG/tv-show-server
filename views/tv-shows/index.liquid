@@ -1,13 +1,29 @@
 {% layout 'layout.liquid' %}
 {% block content %}
     {% if shows.length > 0 %}
-        <h2>All Tv Shows</h2>
-        <ul>
-            {% for show in shows %}
-                <li>{{ show.name }}</li>
-            {% endfor %}
-        </ul>
+        <div class="container-md">
+            <h2>All Tv Shows</h2>
+            <div class="row">
+                {% for show in shows %}
+                    <div class="card me-3 mb-3" style="width: 18rem;">
+                        <h5 class="card-header">{{show.name}}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {% if show.inProduction %}
+                                    This show is still being produced
+                                {% else %}
+                                    This show is done or got canceled. Time to find another one!
+                                {% endif %}
+                            </h5>
+                            <a href="/shows/{{show.id}}" class="btn btn-info">View {{show.name}}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     {% else %}
+    <div class="container-md">
         <h2>No tv shows yet... Go create some!</h2>
+    </div>
     {% endif %}
 {% endblock %}

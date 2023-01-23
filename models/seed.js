@@ -2,7 +2,7 @@
 //// Import Dependencies         ////
 /////////////////////////////////////
 const mongoose = require('../utils/connection')
-const TV = require('./tv-shows')
+const Show = require('./tv-shows')
 
 /////////////////////////////////////
 //// Seed Script code            ////
@@ -15,19 +15,19 @@ const db = mongoose.connection
 db.on('open', () => {
     // array of starter(tv shows)
     const startTvShows = [
-        {name: 'Psych', genre: 'crime, comedy', inProduction: false},
-        {name: 'Suits', genre: 'drama', inProduction: false},
-        {name: 'Doctor Who', genre: 'adventure', inProduction: true},
-        {name: 'Brooklyn Nine-Nine', genre: 'crime, comedy', inProduction: false},
+        { name: 'Psych', genre: 'crime', inProduction: false },
+        { name: 'Suits', genre: 'drama', inProduction: false },
+        { name: 'Doctor Who', genre: 'adventure', inProduction: true },
+        { name: 'Brooklyn Nine-Nine', genre: 'comedy', inProduction: false },
     ]
     // delete all the tv shows in the db
-    TV.deleteMany({})
+    Show.deleteMany({})
         .then(() => {
             // create the start tv shows
-            TV.create(startTvShows)
+            Show.create(startTvShows)
                 // tell our db what to do with success and failures
                 .then(data => {
-                    rconsole.log('Here are the created fruits: \n', data)
+                    console.log('Here are the created shows: \n', data)
                     // close the connection once it's done
                     db.close()
                 })

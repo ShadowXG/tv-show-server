@@ -2,7 +2,7 @@
 //// Import Dependencies   ////
 ///////////////////////////////
 const express = require('express')
-const TV = require('../models/tv-shows')
+const Show = require('../models/tv-shows')
 
 //////////////////////////
 //// Create Router    ////
@@ -18,7 +18,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
     const { username, loggedIn, userId } = req.session
     // find all the tv shows
-    TV.find({})
+    Show.find({})
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         // send json if successful
@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 // Create -> receives a request, and creates a new document
 router.post('/', (req, res) => {
     const newTvShow = req.body
-    TV.create(newTvShow)
+    Show.create(newTvShow)
         .then(show => {
             // sending a 201 status, along with the new tv show
             res.status(201).json({ show: show.toObject() })
@@ -54,12 +54,13 @@ router.post('/', (req, res) => {
 // Index -> this will only show the logged in user's tv shows
 router.get('/mine', (req, res) => {
     // find tv shows by ownership
-    TV.find({ owner: req.session.userId })
+    Show.find({ owner: req.session.userId })
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         .then(shows => {
             // if found display the tv shows
-            res.status(200).json({ shows: shows })
+            // res.status(200).json({ shows: shows })
+            res.render('tv-shows/index', {shows, ...req.session})
         })
         .catch(err => {
             console.log(err)
@@ -73,7 +74,7 @@ router.put('/:id', (req, res) => {
     // save the id for easy reference later
     const id = req.params.id
     // find the tv show by id and update it
-    TV.findById(id)
+    Show.findById(id)
         .then(show => {
             // check if the owner matches the person logged in
             if (show.owner == req.session.userId) {
@@ -98,7 +99,7 @@ router.delete('/:id', (req, res) => {
     // get the id
     const id = req.params.id
     // find and delete the tv show
-    TV.findById(id)
+    Show.findById(id)
         .then(show => {
             // check if the owner matches the person logged in
             if (show.owner == req.session.userId) {
@@ -122,7 +123,7 @@ router.delete('/:id', (req, res) => {
 router.get('/:id', (req, res) => {
     // get the id
     const id = req.params.id
-    TV.findById(id)
+    Show.findById(id)
         .populate('comments.author', 'username')
         .then(show => {
             // send the tv show as json upon success

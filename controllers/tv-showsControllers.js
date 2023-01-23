@@ -18,7 +18,8 @@ const router = express.Router()
 router.get('/', (req, res) => {
     // find all the tv shows
     TV.find({})
-        .populate('owner', '-password')
+        .populate('owner', 'username')
+        .populate('comments.author', '-password')
         // send json if successful
         .then(tvs => { res.json({ tvs: tvs })})
         // catch errors if they occur
@@ -49,7 +50,8 @@ router.post('/', (req, res) => {
 router.get('/mine', (req, res) => {
     // find tv shows by ownership
     TV.find({ owner: req.session.userId })
-        .populate('owner', '-password')
+        .populate('owner', 'username')
+        .populate('comments.author', '-password')
         .then(tvs => {
             // if found display the tv shows
             res.status(200).json({ tvs: tvs })
@@ -116,6 +118,7 @@ router.get('/:id', (req, res) => {
     // get the id
     const id = req.params.id
     TV.findById(id)
+        .populate('comments.author', 'username')
         .then(tv => {
             // send the tv show as json upon success
             res.json({ tv: tv })

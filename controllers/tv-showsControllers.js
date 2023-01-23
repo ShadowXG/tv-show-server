@@ -21,7 +21,11 @@ router.get('/', (req, res) => {
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         // send json if successful
-        .then(tvs => { res.json({ tvs: tvs })})
+        .then(tvs => { 
+            // res.json({ tvs: tvs })
+            // now that liquid is installed we'll have to render instead
+            res.render('fruits/index', { fruits })
+        })
         // catch errors if they occur
         .catch(err => {
             console.log(err)

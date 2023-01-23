@@ -1,0 +1,13 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+  {% if tvs.length > 0 %}
+    <h2>All Tv Shows</h2>
+    <ul>
+      {% for tv in tvs %}
+        <li>{{ tv.name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h2>No tv shows yet... Go create some!</h2>
+  {% endif %}
+{% endblock %}

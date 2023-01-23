@@ -9,6 +9,15 @@
                 {% else %}
                     This show is done or got canceled. Time to find another one!
                 {% endif %}
+                {% if show.owner == userId %}
+                        <hr>
+                        <div class="btn-group">
+                            <a href="" class="btn btn-primary me-3">Edit {{show.name}}</a>
+                            <form action="/shows/{{show.id}}?_method=DELETE" method="POST">
+                                <input type="submit" class="btn btn-danger" value="Delete {{show.name}}">
+                            </form>
+                        </div>
+                {% endif %}
             </h4>
         </article>
     </div>

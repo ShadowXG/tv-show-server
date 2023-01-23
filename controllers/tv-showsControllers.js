@@ -30,7 +30,8 @@ router.get('/', (req, res) => {
         // catch errors if they occur
         .catch(err => {
             console.log(err)
-            res.status(404).json(err)
+            // res.status(404).json(err)
+            res.redirect(`error?error=${err}`)
         })
 })
 
@@ -47,12 +48,15 @@ router.post('/', (req, res) => {
     Show.create(newTvShow)
         .then(show => {
             // sending a 201 status, along with the new tv show
-            res.status(201).json({ show: show.toObject() })
+            // res.status(201).json({ show: show.toObject() })
+            // now we'll redirect instead
+            res.redirect(`/shows/${show.id}`)
         })
         // send an err if one occurs
         .catch(err => {
             console.log(err)
-            res.status(404).json(err)
+            // res.status(404).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -70,7 +74,8 @@ router.get('/mine', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -106,12 +111,14 @@ router.put('/:id', (req, res) => {
                 return show.updateOne(req.body)
             } else {
                 // otherwise send an unathorized status
-                res.sendStatus(401)
+                // res.sendStatus(401)
+                res.redirect(`/error?error=You%20are%20not%20allowed%20to%20edit%20this%20show`)
             }
         })
         .catch(err => {
             console.log(err)
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -126,17 +133,22 @@ router.delete('/:id', (req, res) => {
             // check if the owner matches the person logged in
             if (show.owner == req.session.userId) {
                 // if true send a success message
-                res.sendStatus(204)
+                // res.sendStatus(204)
                 // update and save the fruit
                 return show.deleteOne()
             } else {
                 // otherwise send an unathorized status
-                res.sendStatus(401)
+                // res.sendStatus(401)
+                res.redirect(`/error?error=You%20are%20not%20allowed%20to%20delete%20this%20show`)
             }
+        })
+        .then(() => {
+            res.redirect('/shows/mine')
         })
         .catch(err => {
             console.log(err)
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -155,7 +167,8 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => {
             console.log(err)
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 
